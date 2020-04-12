@@ -25,12 +25,12 @@ export async function getStaticPaths() {
   const data = await unfetch('https://rickandmortyapi.com/api/character/')
   const characters = await data.json()
 
+  const paths = characters.results.map((character) => {
+    return { params: { slug: `${slug(character.name)}-${character.id}` } }
+  })
+
   return {
-    paths: characters.results.map((character) => {
-      return {
-        params: { slug: `${slug(character.name)}-${character.id}}` }
-      }
-    }),
+    paths,
     fallback: false
   }
 }
